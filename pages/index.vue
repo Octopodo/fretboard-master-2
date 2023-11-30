@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+    <fretboard-view></fretboard-view>
   </div>
 </template>
 
