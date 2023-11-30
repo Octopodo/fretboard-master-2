@@ -22,8 +22,9 @@
 </template>
 
 <script lang="ts" setup>
+import { useMyFretStore } from '~/stores/FretStore'
 
-const store = useFretStore()
+const store = useMyFretStore()
 const visible = computed(()=>false)
 const displayTone = computed(() => 'A3')
 const decoration = computed(() => false)
