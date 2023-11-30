@@ -1,5 +1,5 @@
 <template>
   <div>
-    <NuxtWelcome />
+    <fretboard-fret-view></fretboard-fret-view>
   </div>
 </template>
