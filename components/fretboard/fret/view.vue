@@ -1,7 +1,11 @@
 <template>
   <div class="fret" :style="fretStyle" @click.prevent="setVisible()">
     <transition name="scale-transition">
-      <div class="select-none" :style="dotStyle" v-if="visible">
+      <div class="select-none fret-dot" :style="dotStyle" v-if="visible">
+        <fretboard-fret-bg
+          v-if="image !== null"
+          :src="props.image"
+        ></fretboard-fret-bg>
         <div class="fret-dot-content">{{ displayTone }}</div>
       </div>
     </transition>
@@ -19,7 +23,7 @@ const props = defineProps({
   width: { type: Number, default: 100 },
   height: { type: Number, default: 100 },
   dotSize: { type: Number, default: 30 },
-  image: { type: String || null, default: null },
+  image: { type: String || null, default: 'fret-fire/fret-fire' },
 })
 
 const visible = ref(true)
@@ -27,17 +31,27 @@ const dotColor = ref('#ff0')
 const dotOutlineColor = ref('#00f')
 const dotDecoration = ref()
 
+const contentSize = computed(() => {
+  const image = new Image()
+  image.src = `/img/${props.image}.png`
+
+  const size = Math.max(image.naturalWidth, image.naturalHeight, props.dotSize)
+  console.log(image.naturalWidth, image.naturalHeight, props.dotSize)
+  return Math.max(image.naturalWidth, image.naturalHeight, props.dotSize)
+})
+
 const displayTone = computed(() => {
   return props.tone
 })
+
 const dotStyle = computed(() => {
   return {
     backgroundColor: dotColor.value,
     borderRadius: '50px',
     borderColor: dotOutlineColor.value,
     borderWidth: '3px',
-    width: useToCssPixels(props.dotSize).value,
-    height: useToCssPixels(props.dotSize).value,
+    width: useToCssPixels(contentSize.value).value,
+    height: useToCssPixels(contentSize.value).value,
   }
 })
 
