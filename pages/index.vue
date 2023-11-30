@@ -1,14 +1,9 @@
 <template>
   <div>
-    <fretboard-view></fretboard-view>
+    <fretboard-fret-view></fretboard-fret-view>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup></script>
 
-</script>
-
-<style>
-
-</style>
-
+<style></style>
