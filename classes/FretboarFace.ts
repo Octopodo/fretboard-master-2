@@ -11,4 +11,4 @@ class FretboardFace {
   public toneSize = 30
   public fretDistances: Array<Number> = []
 
-  
+}
