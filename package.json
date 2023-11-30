@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint --ext .js,.json,.md,.vue,.ts"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
@@ -16,7 +17,7 @@
     "eslint": "^8.54.0",
     "nuxt": "^3.8.2",
     "nuxt-lodash": "^2.5.3",
-    "standard": "^17.1.0",
+    "sass": "^1.69.5",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
   },
@@ -25,8 +26,5 @@
     "@vueuse/nuxt": "^10.6.1",
     "lodash": "^4.17.21",
     "tonal": "^5.1.2"
-  },
-  "eslintConfig": {
-    "extends": "standard"
   }
 }
