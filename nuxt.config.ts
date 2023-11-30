@@ -4,14 +4,11 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/eslint-module',
-    "nuxt-lodash",
+    'nuxt-lodash',
     '@pinia/nuxt',
   ],
   imports: {
-    dirs: [
-      'composables/**',
-      'constants/**'
-    ]
-  }
+    dirs: ['composables/**', 'constants/**'],
+  },
+  css: ['~/assets/styles/main.sass'],
 })
