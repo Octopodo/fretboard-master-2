@@ -1,37 +1,88 @@
 <template>
-  <div
-  :style="fretStyle"
-  class="place-content-center"
-  @click.prevent="toogleSelection"
-  @contextmenu.prevent="toggleStyleMenu"
-  >
-  <transition name="scale-transition">
-    <div
-      v-if="visible"
-      :style="[toneStyle]"
-      class="place-content-center"
-    >
-    <div class="unselectable">
-      {{ displayTone }}
-    </div>
-
-    </div>
-  </transition>
-    
+  <div class="fret" :style="fretStyle" @click.prevent="setVisible()">
+    <transition name="scale-transition">
+      <div class="select-none" :style="dotStyle" v-if="visible">
+        <div class="fret-dot-content">{{ displayTone }}</div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useMyFretStore } from '~/stores/FretStore'
+// FRET VIEW COMPONENT
+// BAse component for fret in fretboard
+// Is composed by the base fret square and
+// the display dot.
 
-const store = useMyFretStore()
-const visible = computed(()=>false)
-const displayTone = computed(() => 'A3')
-const decoration = computed(() => false)
-const ghosted = computed(() => false)
-const color = computed(() => '')
+const props = defineProps({
+  tone: { type: Number, default: 0 }, //Must be a unmutable value
+  width: { type: Number, default: 100 },
+  height: { type: Number, default: 100 },
+  dotSize: { type: Number, default: 30 },
+  image: { type: String || null, default: null },
+})
+
+const visible = ref(true)
+const dotColor = ref('#ff0')
+const dotOutlineColor = ref('#00f')
+const dotDecoration = ref()
+
+const displayTone = computed(() => {
+  return props.tone
+})
+const dotStyle = computed(() => {
+  return {
+    backgroundColor: dotColor.value,
+    borderRadius: '50px',
+    borderColor: dotOutlineColor.value,
+    borderWidth: '3px',
+    width: useToCssPixels(props.dotSize).value,
+    height: useToCssPixels(props.dotSize).value,
+  }
+})
+
+const fretStyle = computed(() => {
+  return {
+    width: useToCssPixels(props.width).value,
+    height: useToCssPixels(props.height).value,
+  }
+})
+
+const setVisible = () => {
+  visible.value = !visible.value
+}
 </script>
 
-<style>
+<style lang="sass" scoped>
+.fret-dot
+  // position: absolute
 
+  margin: auto
+  display: flex
+  align-items: center
+  justify-content: center
+
+
+.fret
+  position: relative
+  background-color: red
+  display: flex
+  align-items: center
+  justify-content: center
+
+.fret-dot-content
+  position: relative
+  margin: auto
+  text-align: center
+
+.scale-transition-enter-active
+  transition: all .1s ease-in
+
+.scale-transition-leave-active
+  transition: all .2s ease-out
+
+
+.scale-transition-enter-from,
+.scale-transition-leave-to
+  transform: scale(0)
 </style>
