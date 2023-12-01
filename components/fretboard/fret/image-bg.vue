@@ -14,10 +14,17 @@ import fs from 'node:fs/promises'
 
 const props = defineProps({
   src: { type: String },
+  width: { type: Number || String || null, default: null }
 })
 
 const image = computed(() => {
   return getSources()
+})
+
+const imageStyle = computed(() => {
+  return {
+    width: props.width !== null ? useToCssPixels(useToNumber(props.width)).value : 'intrinsicWidth'  
+  }
 })
 
 const getSources = () => {
@@ -31,4 +38,5 @@ const getSources = () => {
   position: absolute
   top: 0
   left: 0
-</style>
+  max-width: intrinsicWidth
+  </style>
