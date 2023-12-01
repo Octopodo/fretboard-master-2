@@ -1,15 +1,15 @@
 <template>
-  <div class="fret" :style="fretStyle" @click.prevent="setVisible()">
+  <span class="fret cursor-pointer" :style="fretStyle" @click.prevent="setVisible()">
     <transition name="scale-transition">
-      <div class="select-none fret-dot" :style="dotStyle" v-if="visible">
-        <fretboard-fret-bg
+      <div class="select-none fret-dot" :style=dotStyle v-if=visible>
+        <fretboard-fret-image-bg
           v-if="image !== null"
           :src="props.image"
-        ></fretboard-fret-bg>
+        ></fretboard-fret-image-bg>
         <div class="fret-dot-content">{{ displayTone }}</div>
       </div>
     </transition>
-  </div>
+  </span>
 </template>
 
 <script lang="ts" setup>
@@ -93,7 +93,7 @@ const setVisible = () => {
   transition: all .1s ease-in
 
 .scale-transition-leave-active
-  transition: all .2s ease-out
+  transition: all .2s ease-in
 
 
 .scale-transition-enter-from,
