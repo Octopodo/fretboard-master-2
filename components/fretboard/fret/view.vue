@@ -1,15 +1,15 @@
 <template>
-  <span class="fret cursor-pointer" :style="fretStyle" @click.prevent="setVisible()">
-    <transition name="scale-transition">
-      <div class="select-none fret-dot" :style=dotStyle v-if=visible>
-        <fretboard-fret-image-bg
-          v-if="image !== null"
-          :src="props.image"
-        ></fretboard-fret-image-bg>
-        <div class="fret-dot-content">{{ displayTone }}</div>
-      </div>
-    </transition>
-  </span>
+  <div class="fret-container">
+
+    <div class="fret-flex-container">
+      <div class="fret" :style="fretStyle" @click.prevent="setVisible()"></div>
+      <transition name="scale-transition">
+        <fretboard-fret-dot></fretboard-fret-dot>    
+      </transition>
+  
+    </div>
+    
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -23,7 +23,7 @@ const props = defineProps({
   width: { type: Number, default: 100 },
   height: { type: Number, default: 100 },
   dotSize: { type: Number, default: 30 },
-  image: { type: String || null, default: 'fret-fire/fret-fire' },
+  image: { type: String || null, default: null },
 })
 
 const visible = ref(true)
@@ -68,7 +68,7 @@ const setVisible = () => {
 </script>
 
 <style lang="sass" scoped>
-.fret-dot
+.fret-flex-container
   // position: absolute
 
   margin: auto
@@ -76,18 +76,16 @@ const setVisible = () => {
   align-items: center
   justify-content: center
 
+fret-container
+  position: relative
 
 .fret
-  position: relative
+  position: absolute
   background-color: red
   display: flex
   align-items: center
   justify-content: center
 
-.fret-dot-content
-  position: relative
-  margin: auto
-  text-align: center
 
 .scale-transition-enter-active
   transition: all .1s ease-in
