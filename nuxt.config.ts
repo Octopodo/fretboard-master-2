@@ -6,9 +6,13 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     'nuxt-lodash',
     '@pinia/nuxt',
+    "@nuxt/image"
   ],
   imports: {
-    dirs: ['composables/**', 'constants/**'],
+    dirs: [
+      'composables',
+      'composables/**', 
+      'constants/**'],
   },
   css: ['~/assets/styles/main.sass'],
 })
