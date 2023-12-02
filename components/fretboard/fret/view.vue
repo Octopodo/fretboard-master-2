@@ -66,33 +66,4 @@ const setVisible = () => {
 .fret
   position: relative
   background-color: red
-
-
-// .show-fret-enter-from
-//   transform: scale(0)
-// .show-fret-enter-to
-//   transform: scale(1)
-// .show-fret-enter-active
-//   transition: all .1s ease-in
-
-// .show-fret-leave-from
-//   transform: scale(1)
-// .show-fret-leave-to
-//   transform: scale(0)
-// .show-fret-leave-active
-//   transition: all .15s ease-in
-
-  
-// .show-fret-enter-active
-//   transition: all .1s ease-in
-
-// .show-fret-leave-active
-//   transition: all .2s ease-in
-
-
-// .show-fret-enter-from,
-//   // transform: scale(100)
-// .show-fret-leave-to
-//   transform: scale(0)
-
 </style>
