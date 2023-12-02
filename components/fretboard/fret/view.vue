@@ -1,7 +1,6 @@
 <template>
-  <div class="fret-container">
-
-    <div class="fret-flex-container">
+  <div class="relative">
+    <div class="fret-flex-container absolute">
       <div class="fret" :style="fretStyle" @click.prevent="setVisible()"></div>
       <transition name="scale-transition">
         <fretboard-fret-dot></fretboard-fret-dot>    
@@ -44,21 +43,12 @@ const displayTone = computed(() => {
   return props.tone
 })
 
-const dotStyle = computed(() => {
-  return {
-    backgroundColor: dotColor.value,
-    borderRadius: '50px',
-    borderColor: dotOutlineColor.value,
-    borderWidth: '3px',
-    width: useToCssPixels(contentSize.value).value,
-    height: useToCssPixels(contentSize.value).value,
-  }
-})
 
 const fretStyle = computed(() => {
   return {
     width: useToCssPixels(props.width).value,
     height: useToCssPixels(props.height).value,
+    border: '4px solid blue'
   }
 })
 
@@ -69,9 +59,6 @@ const setVisible = () => {
 
 <style lang="sass" scoped>
 .fret-flex-container
-  // position: absolute
-
-  margin: auto
   display: flex
   align-items: center
   justify-content: center

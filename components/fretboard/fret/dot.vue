@@ -1,42 +1,45 @@
 <template>
-  <div class="fret-dot-container">
-    <h4 :style="contentStyle">{{ displayNote }}</h4>
-    <!-- DECORATION: Any fret decoration like shadows, lights, etc... -->
-    <NuxtImg
-      ref="decoration"
-      class="fret-decoration"
-      v-if="showDecoration"
-      :src="decorationImagePath" 
-    />
-    
-    <!-- DOT: The base dot by css. Can live with image -->
-    <div
-      ref="dot"
-      :class="dotClass"
-      :style="dotStyle"
-      v-if="showDot"
-    ></div>
+  <div class="relative">
 
-    <!-- IMAGE: The fret image itself -->
-    <NuxtImg
-      ref="image"
-      class="fret-dot"
-      v-if="showImage"
-      :src="imagePath" 
-    />
-    
-    <!-- CONTENT: The content of the fret, normaly the note  -->
-    <slot></slot>
-    
-    <!-- SELECTED: The selection Image  -->
-    <NuxtImg
-      ref="selectedImage"
-      class="fret-selection"
-      v-if="selected"
-      :src="selectionImagePath" 
-    />
+    <div class="fret-dot-flex-container">
+      <h4 :style="contentStyle">{{ displayNote }}</h4>
+      <!-- DECORATION: Any fret decoration like shadows, lights, etc... -->
+      <NuxtImg
+        ref="decoration"
+        class="fret-decoration absolute"
+        v-if="showDecoration"
+        :src="decorationImagePath" 
+      />
+      
+      <!-- DOT: The base dot by css. Can live with image -->
+      <div
+        ref="dot absolute"
+        :class="dotClass"
+        :style="dotStyle"
+        v-if="showDot"
+      ></div>
 
-    
+      <!-- IMAGE: The fret image itself -->
+      <NuxtImg
+        ref="image absolute"
+        class="fret-dot"
+        v-if="showImage"
+        :src="imagePath" 
+      />
+      
+      <!-- CONTENT: The content of the fret, normaly the note  -->
+      <slot></slot>
+      
+      <!-- SELECTED: The selection Image  -->
+      <NuxtImg
+        ref="selectedImage absolute"
+        class="fret-selection"
+        v-if="selected"
+        :src="selectionImagePath" 
+      />
+
+      
+    </div>
   </div>
 </template>
 
@@ -115,18 +118,14 @@ const shiftClick = () => {}
 
 <style lang="sass"  scoped>
 
-.fret-dot-container
+.fret-dot-flex-container
   display: flex
   align-items: center
   justify-content: center
-  margin: auto
-  // position: absolute
-.fret-dot
-  // position: absolute
   // margin: auto
-  // display: flex
-  // align-items: center
-  // justify-content: center
+  
+.fret-dot
+
   z-index: 1
 </style>
 

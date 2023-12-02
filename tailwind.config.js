@@ -7,7 +7,7 @@ export default {
   plugins: [],
   safelist: [
     {
-      pattern: /bg-+/, // 👈  This includes bg of all colors and shades
+      pattern: /bg-|border-/, // 👈  This includes bg of all colors and shades
     },
   ],
 }
