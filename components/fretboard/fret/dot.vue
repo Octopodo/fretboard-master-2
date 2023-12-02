@@ -1,8 +1,9 @@
 <template>
-  <div class="relative">
 
-    <div class="fret-dot-flex-container">
-      <h4 :style="contentStyle">{{ displayNote }}</h4>
+
+  <div class="center">
+    <div  class="center" @click.prevent="rightClick()">
+      <h4 :style="contentStyle" class="center cursor-pointer select-none">{{ displayNote }}</h4>
       <!-- DECORATION: Any fret decoration like shadows, lights, etc... -->
       <NuxtImg
         ref="decoration"
@@ -20,12 +21,15 @@
       ></div>
 
       <!-- IMAGE: The fret image itself -->
-      <NuxtImg
-        ref="image absolute"
-        class="fret-dot"
-        v-if="showImage"
-        :src="imagePath" 
-      />
+      <div v-for="path in paths" >
+        <NuxtImg
+          ref="image absolute"
+          class="fret-dot"
+          v-if="showImage"
+          :src="path" 
+        />
+      </div>
+      
       
       <!-- CONTENT: The content of the fret, normaly the note  -->
       <slot></slot>
@@ -41,6 +45,7 @@
       
     </div>
   </div>
+
 </template>
 
 
@@ -53,6 +58,7 @@ const decoration = ref(null)
 const dot = ref(null)
 const image = ref(null)
 const selectedImage = ref(null)
+const visible = ref(true)
 
 // const viewStore = useFretViewStore() //<-----------Todo
 
@@ -78,14 +84,7 @@ const props = defineProps({
 // TODO: 
 const width = computed(() => {return  props.width})
 const height = computed(() => {return  props.height})
-const contentStyle = computed (() => { 
-  return {
-    cursor: 'pointer',
-    position: 'absolute',
-    zIndex: 100,
-    userSelect: 'none'
-  }
-})
+const contentStyle = computed (() => { return {} })
 const decorationImagePath = computed(()=> { return '' }) 
 const displayNote = computed(() => { return 'A'})
 const dotClass = computed(() => `
@@ -104,6 +103,9 @@ const dotStyle = computed(() => { return {
 }})
 
 const imagePath = computed(()=> { return '' }) 
+const paths = computed(() => {
+  
+})
 const selected = computed(()=> { return false })
 const selectionImagePath = computed(()=> { return '' }) 
 const showDecoration = computed(()=> { return false })
@@ -112,20 +114,15 @@ const showImage = computed(()=> { return false })
 
 //METHODS
 const leftClick = () => {}
-const rightClick = () => {}
+const rightClick = () => {
+  visible.value = !visible.value
+  console.log(visible.value)
+}
 const shiftClick = () => {}
 </script>
 
 <style lang="sass"  scoped>
 
-.fret-dot-flex-container
-  display: flex
-  align-items: center
-  justify-content: center
-  // margin: auto
-  
-.fret-dot
 
-  z-index: 1
-</style>
+</style> 
 

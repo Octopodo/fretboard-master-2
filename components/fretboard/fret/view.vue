@@ -1,12 +1,9 @@
 <template>
-  <div class="relative">
-    <div class="fret-flex-container absolute">
-      <div class="fret" :style="fretStyle" @click.prevent="setVisible()"></div>
-      <transition name="scale-transition">
-        <fretboard-fret-dot></fretboard-fret-dot>    
-      </transition>
-  
-    </div>
+  <div class="relative inline-block cursor-pointer">
+    <div class="fret" :style="fretStyle" @click.prevent="setVisible()"></div>
+    <transition name="show-fret">
+      <fretboard-fret-dot v-if="visible" @click.prevent="leftClick()"></fretboard-fret-dot>    
+    </transition>
     
   </div>
 </template>
@@ -52,36 +49,50 @@ const fretStyle = computed(() => {
   }
 })
 
+
+// METHODS:
+const leftClick = () => {
+  visible.value = !visible.value
+}
+
 const setVisible = () => {
   visible.value = !visible.value
 }
 </script>
 
 <style lang="sass" scoped>
-.fret-flex-container
-  display: flex
-  align-items: center
-  justify-content: center
 
-fret-container
-  position: relative
 
 .fret
-  position: absolute
+  position: relative
   background-color: red
-  display: flex
-  align-items: center
-  justify-content: center
 
 
-.scale-transition-enter-active
-  transition: all .1s ease-in
+// .show-fret-enter-from
+//   transform: scale(0)
+// .show-fret-enter-to
+//   transform: scale(1)
+// .show-fret-enter-active
+//   transition: all .1s ease-in
 
-.scale-transition-leave-active
-  transition: all .2s ease-in
+// .show-fret-leave-from
+//   transform: scale(1)
+// .show-fret-leave-to
+//   transform: scale(0)
+// .show-fret-leave-active
+//   transition: all .15s ease-in
+
+  
+// .show-fret-enter-active
+//   transition: all .1s ease-in
+
+// .show-fret-leave-active
+//   transition: all .2s ease-in
 
 
-.scale-transition-enter-from,
-.scale-transition-leave-to
-  transform: scale(0)
+// .show-fret-enter-from,
+//   // transform: scale(100)
+// .show-fret-leave-to
+//   transform: scale(0)
+
 </style>
