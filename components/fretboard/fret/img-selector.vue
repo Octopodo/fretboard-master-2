@@ -25,3 +25,6 @@ const getPaths = () => {
 
 </style>
 
+
+los creadores de CSS deberian arder
+

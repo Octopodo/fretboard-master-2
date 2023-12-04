@@ -1,7 +1,8 @@
 <template>
-  <div class="test-grid">
+  <!-- <div class="fretboard-string"> -->
    
-    
-    <fretboard-fret-view v-for="fret in 20"></fretboard-fret-view>
-  </div>
+  <fretboard></fretboard>
+    <!-- <fretboard-fret-view class="" v-for="fret in 20"></fretboard-fret-view> -->
+  <!-- </div> -->
 </template>
+

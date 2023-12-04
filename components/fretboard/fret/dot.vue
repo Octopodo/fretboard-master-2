@@ -1,50 +1,49 @@
 <template>
 
 
-  <div class="center">
-    <div  class="center" @click.prevent="rightClick()">
-      <h4 :style="contentStyle" class="center cursor-pointer select-none">{{ displayNote }}</h4>
-      <!-- DECORATION: Any fret decoration like shadows, lights, etc... -->
-      <NuxtImg
-        ref="decoration"
-        class="fret-decoration absolute"
-        v-if="showDecoration"
-        :src="decorationImagePath" 
-      />
-      
-      <!-- DOT: The base dot by css. Can live with image -->
-      <div
-        ref="dot absolute"
-        :class="dotClass"
-        :style="dotStyle"
-        v-if="showDot"
-      ></div>
+  <div  class="fret-dot-container" :style="[sizeStyle]">
+    
+    <!-- DECORATION: Any fret decoration like shadows, lights, etc... -->
+    <NuxtImg
+      ref="decoration"
+      class="fret-dot-content absolute"
+      v-if="showDecoration"
+      :src="decorationImagePath" 
+    />
+    
+    <!-- DOT: The base dot by css. Can live with image -->
+    <div
+      ref="dot absolute"
+      :class="dotClass"
+      :style="[dotStyle, sizeStyle]"
+      v-if="showDot"
+    ></div>
 
-      <!-- IMAGE: The fret image itself -->
-      <div v-for="path in paths" >
-        <NuxtImg
-          ref="image absolute"
-          class="fret-dot"
-          v-if="showImage"
-          :src="path" 
-        />
-      </div>
-      
-      
-      <!-- CONTENT: The content of the fret, normaly the note  -->
-      <slot></slot>
-      
-      <!-- SELECTED: The selection Image  -->
+    <!-- IMAGE: The fret image itself -->
+    <div v-for="path in paths" >
       <NuxtImg
-        ref="selectedImage absolute"
-        class="fret-selection"
-        v-if="selected"
-        :src="selectionImagePath" 
+        ref="image absolute"
+        class="fret-dot-content"
+        v-if="showImage"
+        :src="path" 
       />
-
-      
     </div>
+    
+    
+    <!-- CONTENT: The content of the fret, normaly the note  -->
+    <slot></slot>
+    <h4 :style="contentStyle" class="cursor-pointer select-none fret-dot-content">{{ displayNote }}</h4>
+    <!-- SELECTED: The selection Image  -->
+    <NuxtImg
+      ref="selectedImage absolute"
+      class="fret-dot-content"
+      v-if="selected"
+      :src="selectionImagePath" 
+    />
+
+    
   </div>
+  
 
 </template>
 
@@ -69,14 +68,14 @@ const props = defineProps({
   dotColor: { type: String, default: 'sky-600' },
   dotSelectedColor: { type: String, default: 'red-600' },
   fretId: {type: Number, default: 0 },
-  height: { type:Number || String , default: 50 },
+  height: { type:Number || String , default: 25 },
   hideDecoration: Boolean,
   hideDot: Boolean,
   hideImage: Boolean,
   selected: { type: Boolean, default: true },
   src: { type: String || null, default: null },
   text: null,
-  width: { type:Number || String , default: 50 },
+  width: { type:Number || String , default: 25 },
 })
 
 // COMPUTED PROPETIES:
@@ -89,22 +88,27 @@ const decorationImagePath = computed(()=> { return '' })
 const displayNote = computed(() => { return 'A'})
 const dotClass = computed(() => `
   fret-dot 
+  fret-dot-content
   cursor-pointer 
   bg-${props.dotColor} 
   border-${props.dotBorderColor} 
   ${selected ? 'border-' + props.dotSelectedColor : ''}`
 )
-
+const sizeStyle = computed(() => {
+  return {
+    width:  useToCssPixels(width.value).value,
+    height: useToCssPixels(height.value).value,
+  }
+ 
+})
 const dotStyle = computed(() => { return {
   borderWidth: useToCssPixels(props.borderWidth).value,
   borderRadius: '50px',
-  width:  useToCssPixels(width.value).value,
-  height: useToCssPixels(height.value).value,
 }})
 
 const imagePath = computed(()=> { return '' }) 
 const paths = computed(() => {
-  
+  return ['']
 })
 const selected = computed(()=> { return false })
 const selectionImagePath = computed(()=> { return '' }) 
@@ -123,6 +127,11 @@ const shiftClick = () => {}
 
 <style lang="sass"  scoped>
 
+dot-content
+  display: grid
+  place-content: center
+  // self-align: center
+  position: absolute
 
 </style> 
 

@@ -1,8 +1,8 @@
 <template>
-  <div class="relative inline-block cursor-pointer">
-    <div class="fret" :style="fretStyle" @click.prevent="setVisible()"></div>
+  <div class="cursor-pointer fret-container" :style="[sizeStyle]">
+    <div class="fret-background fret-content" :style="[sizeStyle]" @click.prevent="setVisible()"></div>
     <transition name="show-fret">
-      <fretboard-fret-dot v-if="visible" @click.prevent="leftClick()"></fretboard-fret-dot>    
+      <fretboard-fret-dot class="fret-content" v-if="visible" @click.prevent="leftClick()" ></fretboard-fret-dot>    
     </transition>
     
   </div>
@@ -41,11 +41,13 @@ const displayTone = computed(() => {
 })
 
 
-const fretStyle = computed(() => {
+const sizeStyle = computed(() => {
   return {
-    width: useToCssPixels(props.width).value,
-    height: useToCssPixels(props.height).value,
-    border: '4px solid blue'
+    width: 'auto',
+    height: 'auto'
+    // width: useToCssPixels(props.width).value,
+    // height: useToCssPixels(props.height).value,
+    // border: '4px solid blue'
   }
 })
 
@@ -64,6 +66,12 @@ const setVisible = () => {
 
 
 .fret
-  position: relative
+  position: absolute
   background-color: red
+
+
+.fret-container
+  display: grid
+  place-content: center
+  height: 10px
 </style>

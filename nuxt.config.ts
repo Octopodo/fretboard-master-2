@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   },
   css: [
     '~/assets/styles/main.sass',
-    '~/assets/styles/transitions.sass'
+    '~/assets/styles/transitions.sass',
+    '~/assets/styles/fretboard.sass'
   ],
 })
