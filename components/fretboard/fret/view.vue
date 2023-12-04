@@ -1,8 +1,8 @@
 <template>
-  <div class="cursor-pointer fret-container" :style="[sizeStyle]">
-    <div class="fret-background fret-content" :style="[sizeStyle]" @click.prevent="setVisible()"></div>
+  <div class="cursor-pointer fret-container" :style="[sizeStyle, bgStyle]"  @click.prevent="leftClick()">
+    <div class="fret-background fret-content" :style="[sizeStyle]"></div>
     <transition name="show-fret">
-      <fretboard-fret-dot class="fret-content" v-if="visible" @click.prevent="leftClick()" ></fretboard-fret-dot>    
+      <fretboard-fret-dot class="fret-content" v-if="dotVisible" ></fretboard-fret-dot>    
     </transition>
     
   </div>
@@ -14,19 +14,25 @@
 // Is composed by the base fret square and
 // the display dot.
 
+import type { PropType } from 'vue';
+import { type FretInterface } from '~/classes/Fret'
+
+
 const props = defineProps({
   tone: { type: Number, default: 0 }, //Must be a unmutable value
   width: { type: Number, default: 100 },
   height: { type: Number, default: 100 },
   dotSize: { type: Number, default: 30 },
   image: { type: String || null, default: null },
+  fretData: { type: Object as PropType<FretInterface>, required: true}
 })
 
-const visible = ref(true)
+
 const dotColor = ref('#ff0')
 const dotOutlineColor = ref('#00f')
 const dotDecoration = ref()
 
+const dotVisible = ref(props.fretData.visible)
 const contentSize = computed(() => {
   const image = new Image()
   image.src = `/img/${props.image}.png`
@@ -40,6 +46,14 @@ const displayTone = computed(() => {
   return props.tone
 })
 
+// COMPUTED STYLES:
+
+const bgStyle = computed(() => {
+  return{
+    backgroundColor: 'red',
+    border: '1px solid blue'
+  }
+} )
 
 const sizeStyle = computed(() => {
   return {
@@ -52,13 +66,15 @@ const sizeStyle = computed(() => {
 })
 
 
+// LIFECYCLE HOOKS:
+// onMounted(() => {
+//   console.log(props.fretData)
+// })
+
 // METHODS:
 const leftClick = () => {
-  visible.value = !visible.value
-}
-
-const setVisible = () => {
-  visible.value = !visible.value
+  props.fretData.visible = !props.fretData.visible
+  dotVisible.value = props.fretData.visible
 }
 </script>
 
@@ -75,3 +91,13 @@ const setVisible = () => {
   place-content: center
   height: 10px
 </style>
+
+
+<!-- <template>
+  <div style="display: grid">
+    <div class="celda-tiene-tamaño">
+      <div clss="hijo"></div>
+    </div>
+  </div>
+
+</template> -->

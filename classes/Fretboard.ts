@@ -6,7 +6,7 @@ import { chromaticScale, standardTunning } from '~/constants/musical'
 
 
 //Import types
-import type { Fret } from './Fret';
+import  { Fret, type FretInterface } from './Fret';
 
 
 function getPureNote(note: String) {
@@ -46,15 +46,22 @@ function getOctave(note: String) {
 
 // }
 
-class Fretboard {
+type FretboardMatrix = Array<Array<FretInterface>>
+
+export class Fretboard {
   private spine:  any      // Crear clase Spine o Interfaz
-  private matrix: Array<Array<Fret>> = [[]]    // Crear clase Matrix o Interfaz
+  public matrix: FretboardMatrix = [[]]    // Crear clase Matrix o Interfaz
   private root: any       // ver claves 
   private tunning: any    // Crear clase tunning
   private scale: any      //
   private positions: any  // 
 
-  constructor () {}
+  constructor (
+    strings=6,
+    frets=12
+  ) {
+
+  }
 
   crawl (callback: Function) {
     this.matrix.forEach((string, index) => {
@@ -62,6 +69,25 @@ class Fretboard {
         callback(fret, fretIndex, index)
       })
     })
+  }
+
+  public createSpine(strings: Number, frets: Number) {
+    return this.spine
+  }
+
+  public createMatrix(strings=6, frets=12) {
+
+    for(let str = 0; str < strings; str++ ) {
+      this.matrix.push([])
+      for (let f = 0; f < frets; f++ ) {
+        let fret  = {
+          visible: true,
+          id: `${str}-->${f}`
+        }
+        this.matrix[str].push(fret)
+
+      }
+    }
   }
 
   generatePositions () {}

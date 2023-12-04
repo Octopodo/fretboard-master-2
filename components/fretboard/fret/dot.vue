@@ -57,7 +57,7 @@ const decoration = ref(null)
 const dot = ref(null)
 const image = ref(null)
 const selectedImage = ref(null)
-const visible = ref(true)
+// const visible = ref(true)
 
 // const viewStore = useFretViewStore() //<-----------Todo
 
@@ -118,10 +118,7 @@ const showImage = computed(()=> { return false })
 
 //METHODS
 const leftClick = () => {}
-const rightClick = () => {
-  visible.value = !visible.value
-  console.log(visible.value)
-}
+
 const shiftClick = () => {}
 </script>
 

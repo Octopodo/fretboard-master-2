@@ -1,25 +1,43 @@
-class Fret {
-  private active: Boolean = true
-  private color: any = null
-  private decoration: any = null
-  private finger: Number = 0
-  private index: Number = 0
-  private octave: Number = 4
-  private offset: Boolean = false
-  private pitch: String = 'C'
+export class Fret {
+  private active: boolean = true;
+  private color: any = null;
+  private decoration: any = null;
+  private finger: number = 0;
+  private index: number = 0;
+  private octave: number = 4;
+  private offset: boolean = false;
+  private pitch: string = 'C';
+  private visible: boolean = true
 
-  constructor(
-    active?: Boolean,
-    color?: any,
-    decoration?: any,
-    finger?: Number,
-    index?: Number,
-    octave?: Number,
-    offset?: Boolean,
-    pitch?: String
-  ) {
+  constructor({
+    active = true,
+    color = null,
+    decoration = null,
+    finger = 0,
+    index = 0,
+    octave = 4,
+    offset = false,
+    pitch = 'C',
+    visible = true
+  } = {}) {
     // No es necesario asignar valores en el constructor
   }
+  
 }
 
-export { Fret }
+
+
+export interface FretInterface {
+  id?: String
+  active?: Boolean
+  color?: any
+  borderColor?: any
+  decoration?: any
+  finger?: Number
+  index?: Number
+  octave?: Number
+  offset?: Boolean
+  pitch?: String
+  visible?: Boolean
+}
+
