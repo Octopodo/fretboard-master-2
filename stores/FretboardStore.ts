@@ -8,7 +8,7 @@ export const useMyFretboardStore = defineStore({
     fbRatio: fbRatio,
     fretbarWidth: 4,
     fretboardHeight: 250,
-    fretboardWidth: window.innerWidth * fbRatio,
+    // fretboardWidth: window.innerWidth * fbRatio,
     fretDotSize: 20
 
   }),
