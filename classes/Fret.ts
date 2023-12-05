@@ -1,3 +1,4 @@
+import { type Ref } from 'vue'
 export class Fret {
   private active: boolean = true;
   private color: any = null;
@@ -25,19 +26,24 @@ export class Fret {
   
 }
 
+export type FretId = `${string}-${string}`
+export const FRET_ID_SPLITTER = '-'
+
 
 
 export interface FretInterface {
-  id?: String
-  active?: Boolean
+  id?: FretId
+  active?: boolean
   color?: any
   borderColor?: any
   decoration?: any
-  finger?: Number
-  index?: Number
-  octave?: Number
-  offset?: Boolean
-  pitch?: String
-  visible?: Boolean
+  finger?: number
+  index?: number
+  octave?: number
+  offset?: boolean
+  pitch?: string
+  str: number
+  fret: number
+  visible: boolean
 }
 

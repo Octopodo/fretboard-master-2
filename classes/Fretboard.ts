@@ -3,11 +3,10 @@ import { Scale, Note, AbcNotation as Notation,
   type NoteLiteral, type ScaleType } 
   from 'tonal'
 import { chromaticScale, standardTunning } from '~/constants/musical'
-
+import { FretSettings } from './settings'
 
 //Import types
-import  { Fret, type FretInterface } from './Fret';
-
+import  { Fret, type FretId, type FretInterface, FRET_ID_SPLITTER } from './Fret';
 
 function getPureNote(note: String) {
   return note.replace(/[0-9]/g, '');
@@ -16,35 +15,6 @@ function getPureNote(note: String) {
 function getOctave(note: String) {
   return note.replace(/\D/g, '')
 }
-
-
-// class Fretboard  {
-//   private tunning:Array<String>
-//   private root: NoteLiteral
-//   private fretCount: Number
-//   private enharmonics: String
-//   private spine: Array<Fret> = []
-//   private matrix: Array<Fret> = []
-//   private scaleFrets: Array<any> = []
-//   private scales: Array<any> = []
-//   private positions: Array<any> = []
-  
-
-
-//   constructor(tunning=standardTunning, fretCount=22, flats=false) {
-//     this.tunning = tunning
-//     this.root = this.tunning[this.tunning.length -1] as NoteLiteral
-//     this.fretCount = fretCount
-//     this.enharmonics = flats ? 'flats' : 'sharps'
-//     this.spine = this.generateSpine()
-//   }
-
-//   generateSpine() : Array<Fret> {
-//     // const firstOctave = Note.octave(this.root.toString())
-//     // const lastOctave = Note.octave(this.tunning[0] + Math.floor(this.fretCount))
-//   }
-
-// }
 
 type FretboardMatrix = Array<Array<FretInterface>>
 
@@ -81,8 +51,10 @@ export class Fretboard {
       this.matrix.push([])
       for (let f = 0; f < frets; f++ ) {
         let fret  = {
-          visible: true,
-          id: `${str}-->${f}`
+          visible: FretSettings.VISIBLE_AT_START,
+          id: `${str.toString()}-${f.toString()}` as const,
+          str: str,
+          fret: f
         }
         this.matrix[str].push(fret)
 
@@ -91,12 +63,19 @@ export class Fretboard {
   }
 
   generatePositions () {}
+
   freeze () {}
+
   setScale (scaleName: String ) {
     const scale: Array<any> = []
     this.crawl((fret:any) => {
       fret.visible = scale.includes(fret) 
     })
+  }
+
+  setVisible(str: number, fret: number) {
+    const fretData = this.matrix[str][fret]
+    fretData.visible = !fretData.visible
   }
   snapshot() {}
   print () {}
