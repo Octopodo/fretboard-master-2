@@ -1,15 +1,18 @@
 <template>
-  <div class="cursor-pointer fret-container fret-background" :style="[sizeStyle]"  @click.prevent="leftClick()">
-    
+  <div
+    class="cursor-pointer fret-container fret-background"
+    :style="[sizeStyle]"
+    @click.prevent="leftClick()"
+  >
     <transition name="show-fret">
-      <fretboard-fret-dot 
+      <fretboard-fret-dot
         v-if="props.fretData.visible"
-        class="fret-content"  
+        class="fret-content"
         :width="dotSize"
         :height="dotSize"
-      ></fretboard-fret-dot>    
+      ></fretboard-fret-dot>
     </transition>
-    <div class="fretboard-string" ></div>
+    <div class="fretboard-string"></div>
   </div>
 </template>
 
@@ -19,10 +22,10 @@
 // Is composed by the base fret square and
 // the display dot.
 
-import{ FretSettings } from '~/classes/settings'
+import { FretSettings } from '~/classes/settings'
 
-import type { PropType } from 'vue';
-import { type FretInterface, type FretId } from '~/classes/Fret'
+import type { PropType } from 'vue'
+import { type FretData } from '~/classes/Fretboard'
 
 // PROPS:
 const props = defineProps({
@@ -31,7 +34,7 @@ const props = defineProps({
   height: { type: Number, default: 100 },
   dotSize: { type: Number, default: FretSettings.FRET_DOT_SIZE },
   image: { type: String || null, default: null },
-  fretData: { type: Object as PropType<FretInterface>, required: true}
+  fretData: { type: Object as PropType<FretData>, required: true },
 })
 
 //REFS:
@@ -40,7 +43,6 @@ const props = defineProps({
 const dotColor = ref('#ff0')
 const dotOutlineColor = ref('#00f')
 const dotDecoration = ref()
-
 
 const displayTone = computed(() => {
   return props.tone
@@ -58,10 +60,9 @@ const displayTone = computed(() => {
 const sizeStyle = computed(() => {
   return {
     width: 'auto',
-    height: 'auto'
+    height: 'auto',
   }
 })
-
 
 // EMITTERS:
 const emit = defineEmits(['userClickedFret'])
