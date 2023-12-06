@@ -11,17 +11,13 @@ import { FretSettings } from './settings'
 
 //INTERFACES'
 export interface FretData {
-  mark: number // The index in the fret sets images
-  visible: boolean
-  str: number
   fret: number
-}
-
-export interface SpineTone {
-  active: boolean
-  note: typeof Note
-  midiNote: string
-  frets: Array<FretData>
+  locked: boolean
+  mark: number // The index in the fret sets images
+  note?: typeof Note
+  positions?: number[]
+  str: number
+  visible: boolean
 }
 
 type GtString = Array<FretData>
@@ -89,10 +85,13 @@ export class Fretboard {
       this.matrix.push([])
       for (let f = 0; f < frets; f++) {
         let fret = {
-          visible: FretSettings.VISIBLE_AT_START,
-          str: str,
           fret: f,
+          locked: false,
           mark: 0,
+          positions: [],
+          str: str,
+          visible: FretSettings.VISIBLE_AT_START,
+
         }
         this.matrix[str].push(fret)
       }
@@ -135,7 +134,7 @@ export class Fretboard {
 export const FretboardTest = () => {
   let message = 'Fretboard Testing'
 
-  const fretboard = new Fretboard({ tone: 'C#4' })
+  const fretboard = new Fretboard()
   console.log(fretboard.tone)
   fretboard.print()
   return message
