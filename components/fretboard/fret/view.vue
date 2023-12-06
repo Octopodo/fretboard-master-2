@@ -49,14 +49,6 @@ const displayTone = computed(() => {
 })
 
 // COMPUTED STYLES:
-
-// const bgStyle = computed(() => {
-//   return{
-//     backgroundColor: 'red',
-//     border: '1px solid blue'
-//   }
-// } )
-
 const sizeStyle = computed(() => {
   return {
     width: 'auto',
