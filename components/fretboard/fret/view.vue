@@ -10,6 +10,7 @@
         class="fret-content"
         :width="dotSize"
         :height="dotSize"
+        :tone="fretData.name"
       ></fretboard-fret-dot>
     </transition>
     <div class="fretboard-string"></div>
