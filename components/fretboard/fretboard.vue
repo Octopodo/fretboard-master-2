@@ -20,8 +20,8 @@
 <script lang="ts" setup>
 import { useMyFretboardStore } from '~/stores/FretboardStore'
 import { fretSpacing } from '~/constants/fret-proportions'
-import { Fretboard } from '~/classes/Fretboard'
-import { FretboardSettings, FretSettings } from '~/classes/settings'
+import { Fretboard } from '~/models/fretboard/Fretboard'
+import { FretboardSettings, FretSettings } from '~/models/settings'
 
 const props = defineProps({
   strings: { type: [Number, String], default: 6 },
@@ -66,3 +66,4 @@ onBeforeMount(() => {})
 <style lang="sass"></style>
 
 ~/model/Fretboard~/model/settings
+~/models/fretboard/Fretboard~/models/fretboard/settings

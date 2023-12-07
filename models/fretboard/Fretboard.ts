@@ -9,7 +9,7 @@ import {
   type ScaleType,
 } from 'tonal'
 import { chromaticScale, Tunings, FlatsMap } from '~/constants/musical'
-import { FretSettings, FretboardSettings as FbSettings } from './settings'
+import { FretSettings, FretboardSettings as FbSettings } from '../settings'
 
 //INTERFACES'
 export interface FretData {

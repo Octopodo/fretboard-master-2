@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts" setup>
-import { FretboardTest } from '~/classes/Fretboard'
+import { FretboardTest } from '~/models/fretboard/Fretboard'
 </script>
 
 <style></style>
-~/model/Fretboard
+~/model/Fretboard ~/models/fretboard/Fretboard
