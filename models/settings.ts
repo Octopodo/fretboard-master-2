@@ -11,6 +11,6 @@ export const FretboardSettings = {
 }
 
 export const FretSettings = {
-  FRET_DOT_SIZE: 30,
+  FRET_DOT_SIZE: 35,
   VISIBLE_AT_START: true,
 }

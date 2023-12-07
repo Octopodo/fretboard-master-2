@@ -30,7 +30,7 @@
     <slot></slot>
     <h4
       :style="contentStyle"
-      class="cursor-pointer select-none fret-dot-content"
+      class="cursor-pointer select-none fret-dot-text"
     >
       {{ displayNote }}
     </h4>
@@ -59,9 +59,9 @@ const selectedImage = ref(null)
 
 // INPUT PROPS:
 const props = defineProps({
-  borderWidth: { type: Number, default: 4 },
-  dotBorderColor: { type: String, default: 'sky-950' },
-  dotColor: { type: String, default: 'sky-600' },
+  borderWidth: { type: Number, default: 2 },
+  dotBorderColor: { type: String, default: 'gray-800' },
+  dotColor: { type: String, default: 'slate-200' },
   dotSelectedColor: { type: String, default: 'red-600' },
   fretId: { type: Number, default: 0 },
   height: { type: Number || String, default: 25 },
