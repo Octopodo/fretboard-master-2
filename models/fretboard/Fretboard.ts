@@ -7,6 +7,7 @@ import {
   AbcNotation as Notation,
   Interval,
   Range,
+  PcSet,
   type NoteLiteral,
   type ScaleType,
 } from 'tonal'
@@ -29,6 +30,7 @@ interface FretData extends Partial<NoteInterface> {
   positions?: number[]
   str: number
   visible: boolean
+  active: boolean
 }
 
 type GtString = Array<FretData>
@@ -54,7 +56,7 @@ class Fretboard {
   private tuning: any // Crear clase tunning
   private fretCount: number
   private stringCount: number
-
+  private isActive: Function
   public matrix: FretboardMatrix = [] // Crear clase Matrix o Interfaz
 
   readonly flats: boolean
@@ -81,7 +83,7 @@ class Fretboard {
     this.tuning = tuning
     this.fretCount = frets
     this.stringCount = strings
-
+    this.isActive = PcSet.isNoteIncludedIn(this.scale.notes)
     const toneName = Note.get(tone).letter
     const qualifiedTone = isMinor(this.scale) ? `${toneName}m` : toneName
 
@@ -144,14 +146,19 @@ class Fretboard {
       let gString = this.generateStringChromaticScale(str)
       for (let f = 0; f < gString.length; f++) {
         let fret = {
+          active: false,
           fret: f,
           locked: false,
           mark: 0,
           positions: [],
           str: str,
-          visible: FretSettings.VISIBLE_AT_START,
+          visible: false,
           ...Note.get(gString[f]),
         }
+
+        fret.active = this.isActive(fret.name)
+        fret.visible = fret.active
+
         this.matrix[str].push(fret)
       }
     }
@@ -182,7 +189,7 @@ class Fretboard {
           fretIndex?: number,
           gString?: GtString,
           gIndex?: Number
-        ) => string)
+        ) => string | undefined)
   ) {
     let out = ''
     let nut = '||'
@@ -213,15 +220,11 @@ const FretboardTest = () => {
   let message = 'Fretboard Testing'
 
   // Range.chromatic(['E4', ])
-  const fretboard = new Fretboard(
-    'G4',
-    "messiaen's mode #3",
-    Tunings.STANDARD,
-    6,
-    22
-  )
+  const fretboard = new Fretboard('C', 'major', Tunings.STANDARD, 6, 22)
 
-  fretboard.print()
+  fretboard.print((fret) => {
+    return fret.active ? fret.name : 'X'
+  })
   return message
 }
 
