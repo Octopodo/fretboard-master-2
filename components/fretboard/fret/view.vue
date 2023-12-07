@@ -22,10 +22,10 @@
 // Is composed by the base fret square and
 // the display dot.
 
-import { FretSettings } from '~/classes/settings'
+import { FretSettings } from '~/models/settings'
 
 import type { PropType } from 'vue'
-import { type FretData } from '~/classes/Fretboard'
+import { type FretData } from '~/models/fretboard/Fretboard'
 
 // PROPS:
 const props = defineProps({
