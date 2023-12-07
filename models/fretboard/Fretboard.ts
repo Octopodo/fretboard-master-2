@@ -8,15 +8,18 @@ import {
   type NoteLiteral,
   type ScaleType,
 } from 'tonal'
+
+import { type Note as NoteInterface } from '@tonaljs/pitch-note'
 import { chromaticScale, Tunings, FlatsMap } from '~/constants/musical'
 import { FretSettings, FretboardSettings as FbSettings } from '../settings'
+import { isMinor } from '~/models/scales/ScaleHelpers'
 
 //INTERFACES'
-export interface FretData {
+export interface FretData extends Partial<NoteInterface> {
   fret: number
   locked: boolean
   mark: number // The index in the fret sets images
-  note?: typeof Note
+  note?: NoteLiteral
   positions?: number[]
   str: number
   visible: boolean
@@ -25,23 +28,17 @@ export interface FretData {
 type GtString = Array<FretData>
 type FretboardMatrix = Array<GtString>
 
-function getPureNote(note: String) {
-  return note.replace(/[0-9]/g, '')
-}
-
-function getOctave(note: String) {
-  return note.replace(/\D/g, '')
-}
-
 // CLASE FRETBOARD:
 // Class to manage the fretboard model
 export class Fretboard {
   private positions: any //
   private root: any // ver claves
   private spine: any // Crear clase Spine o Interfaz
-  private tunning: any // Crear clase tunning
+  private tuning: any // Crear clase tunning
+  fretCount: number
+  stringCount: number
 
-  public matrix: FretboardMatrix = [[]] // Crear clase Matrix o Interfaz
+  public matrix: FretboardMatrix = [] // Crear clase Matrix o Interfaz
 
   readonly flats: boolean
   readonly scale: any //
@@ -50,15 +47,23 @@ export class Fretboard {
   constructor(
     tone: string = FbSettings.TONE,
     scale: string = FbSettings.SCALE,
-    tunning: string[] = FbSettings.TUNNING,
+    tuning: string[] = FbSettings.TUNING,
     strings: number = FbSettings.STRING_COUNT,
-    frets: number = FbSettings.FRET_COUNT,
-    flats: boolean = FbSettings.FLATS
+    frets: number = FbSettings.FRET_COUNT
   ) {
+    //TODO: Implement a way to detect if a scale is major or minor
     // Setting up the basic properties
     this.scale = Scale.get(`${tone} ${scale}`)
     this.tone = Note.get(this.scale.notes[0])
-    this.flats = FlatsMap[tone as keyof typeof FlatsMap] //Use flats or sharpt as accidental representation
+    this.tuning = tuning
+    this.fretCount = frets
+    this.stringCount = strings
+
+    const toneName = Note.get(tone).letter
+    const qualifiedTone = isMinor(this.scale) ? `${toneName}m` : toneName
+
+    this.flats = FlatsMap[qualifiedTone as keyof typeof FlatsMap] //Use flats or sharpt as accidental representation
+    this.generateMatrix()
   }
 
   crawl(
@@ -86,10 +91,22 @@ export class Fretboard {
     return this.spine
   }
 
-  public createMatrix(strings = 6, frets = 12) {
-    for (let str = 0; str < strings; str++) {
+  public generateStringChromaticScale(stringNumber: number) {
+    const interval = Interval.fromSemitones(22)
+    const startNote = this.tuning[stringNumber as keyof typeof this.tuning]
+    const lastNote = Note.transpose(startNote, interval)
+    const chromaticString = Range.chromatic([startNote, lastNote], {
+      sharps: !this.flats,
+    })
+
+    return chromaticString
+  }
+
+  public generateMatrix() {
+    for (let str = 0; str < this.stringCount; str++) {
       this.matrix.push([])
-      for (let f = 0; f < frets; f++) {
+      let gString = this.generateStringChromaticScale(str)
+      for (let f = 0; f < gString.length; f++) {
         let fret = {
           fret: f,
           locked: false,
@@ -97,6 +114,7 @@ export class Fretboard {
           positions: [],
           str: str,
           visible: FretSettings.VISIBLE_AT_START,
+          ...Note.get(gString[f]),
         }
         this.matrix[str].push(fret)
       }
@@ -138,20 +156,16 @@ export class Fretboard {
 
 export const FretboardTest = () => {
   let message = 'Fretboard Testing'
-  let interval = Interval.fromSemitones(22)
+
   // Range.chromatic(['E4', ])
-  const fretboard = new Fretboard('G4', 'minor', Tunings.STANDARD, 6, 22)
-  console.log('Transposed ', interval, Note.transpose('E2', interval))
-  // fretboard.scale.notes.forEach(
-  //   (note: NoteLiteral, ind: number, notes: any) => {
-  //     console.log(Note.get(note))
-  //     console.log(
-  //       'distance:',
-  //       Interval.distance(note.toString(), notes[ind + 1]),
-  //       Interval.get(Interval.distance(note.toString(), notes[ind + 1]))
-  //     )
-  //   }
-  // )
-  fretboard.print()
+  const fretboard = new Fretboard(
+    'G4',
+    "messiaen's mode #3",
+    Tunings.STANDARD,
+    6,
+    22
+  )
+
+  fretboard.print('name')
   return message
 }
