@@ -7,7 +7,7 @@ export const FretboardSettings = {
   SCALE: 'major',
   STRING_COUNT: 6,
   TONE: 'C1',
-  TUNNING: Tunings.STANDARD,
+  TUNING: Tunings.STANDARD,
 }
 
 export const FretSettings = {
