@@ -177,6 +177,7 @@ class Fretboard {
   print(
     keyOrCallback:
       | string
+      | undefined
       | ((
           fret: FretData,
           fretIndex?: number,
@@ -221,7 +222,7 @@ const FretboardTest = () => {
     22
   )
 
-  fretboard.print('name')
+  fretboard.print()
   return message
 }
 
