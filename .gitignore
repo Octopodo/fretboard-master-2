@@ -26,4 +26,4 @@ logs
 # design
 __design__
 __testing__
-.vscode
+# .vscode
