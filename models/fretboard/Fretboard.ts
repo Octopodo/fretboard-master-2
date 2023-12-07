@@ -17,6 +17,10 @@ import { FretSettings, FretboardSettings as FbSettings } from '../settings'
 import { isMinor } from '~/models/scales/ScaleHelpers'
 
 //INTERFACES'
+
+/**
+ *
+ */
 interface FretData extends Partial<NoteInterface> {
   fret: number
   locked: boolean
@@ -33,6 +37,18 @@ type FretboardMatrix = Array<GtString>
 // CLASE FRETBOARD:
 // Class to manage the fretboard model
 
+/**
+ * Class to manage fretboard data. It manages the FretboardMatrix.
+ * @prop positions Stores a PositionMatrix with all the finger positions.
+ * @prop tuning This is th tuning of the current Fretboard. If a new tuning is needed, you must create a new Fretboard.
+ * @prop fretCount Tee number of frets.
+ * @prop stringCount Represent the phisical number of strings.
+ * @prop matrix The main matrix to manipulate FretData.
+ * @prop flats Determines if the notes must be written with b or #
+ * @prop scale The scale of the current fretboard
+ * @prop tone The root note of the fretboard
+ * @member kls
+ */
 class Fretboard {
   private positions: any //
   private tuning: any // Crear clase tunning
@@ -45,6 +61,14 @@ class Fretboard {
   readonly scale: any //
   readonly tone: any
 
+  /**
+   * Determines
+   * @param tone
+   * @param scale
+   * @param tuning
+   * @param strings
+   * @param frets
+   */
   constructor(
     tone: string = FbSettings.TONE,
     scale: string = FbSettings.SCALE,
@@ -68,7 +92,13 @@ class Fretboard {
   // generatePositions() {}
   // freeze() {}
   // snapshot() {}
-  crawl(
+
+  /**
+   * Internal function to iterate and perform operations trough the FretboardMatrix
+   * @param callback A calback function to perform on each FretData
+   * @param stringCallback  A callbac
+   */
+  private crawl(
     callback: (
       fret: FretData,
       index?: number,
@@ -89,7 +119,12 @@ class Fretboard {
     })
   }
 
-  public generateStringChromaticScale(stringNumber: number) {
+  /**
+   * Generates all the chromatic notes for a string based on the string tuning
+   * @param stringNumber
+   * @returns An array with all the string notes in the format 'A#5'
+   */
+  private generateStringChromaticScale(stringNumber: number) {
     const interval = Interval.fromSemitones(22)
     const startNote = this.tuning[stringNumber as keyof typeof this.tuning]
     const lastNote = Note.transpose(startNote, interval)
@@ -100,6 +135,9 @@ class Fretboard {
     return chromaticString
   }
 
+  /**
+   * Generates tha fretboard matrix that contains all the frets in FretData format
+   */
   public generateMatrix() {
     for (let str = 0; str < this.stringCount; str++) {
       this.matrix.push([])
@@ -131,22 +169,46 @@ class Fretboard {
     fretData.visible = !fretData.visible
   }
 
-  // PRINT:
-  // Accepts a key to print each fret
-  // in a formated fretboard
-  print(key = 'tone') {
+  /**
+   * Function to pretty print the FretboardMatrix
+   * @param keyOrCallback The key of FretData to prink. It can be a callback to output custom values
+   * @returns Returns the string output
+   */
+  print(
+    keyOrCallback:
+      | string
+      | ((
+          fret: FretData,
+          fretIndex?: number,
+          gString?: GtString,
+          gIndex?: Number
+        ) => string)
+  ) {
     let out = ''
+    let nut = '||'
+    let frontSeparator = '-['
+    let endSeparator = ']-'
+    let fretInfo: any
     this.matrix.forEach((str, sIndex) => {
-      out += '||'
+      out += nut
       str.forEach((fret, fIndex) => {
-        out += `[${fret[key as keyof typeof fret]}]--`
+        if (typeof keyOrCallback === 'string') {
+          fretInfo = fret[keyOrCallback as keyof typeof fret]
+        } else if (typeof keyOrCallback === 'function') {
+          fretInfo = keyOrCallback(fret, fIndex, str, sIndex)
+        } else {
+          fretInfo = fret.name
+        }
+        out += `${frontSeparator}${fretInfo}${endSeparator}`
       })
-      out += '||\n'
+      out += `${nut}\n`
     })
     console.log(out)
+    return out
   }
 }
 
+/**Just for testing.  */
 const FretboardTest = () => {
   let message = 'Fretboard Testing'
 
