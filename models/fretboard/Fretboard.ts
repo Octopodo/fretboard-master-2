@@ -175,9 +175,8 @@ class Fretboard {
    * @returns Returns the string output
    */
   print(
-    keyOrCallback:
+    keyOrCallback?:
       | string
-      | undefined
       | ((
           fret: FretData,
           fretIndex?: number,
