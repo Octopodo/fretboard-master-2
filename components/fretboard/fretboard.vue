@@ -1,6 +1,7 @@
 <template>
   <div class="fretboard-container">
     <NuxtImg
+      v-if="showImage"
       src="/img/fretboards/fretboard_wood.png"
       class="fretboard-image"
     ></NuxtImg>
@@ -31,9 +32,8 @@ const props = defineProps({
 const fretCount = computed(() => Number(props.frets))
 const stringCount = computed(() => Number(props.strings))
 const state = useMyFretboardStore()
-const fretboard = ref(new Fretboard(stringCount.value, fretCount.value))
-
-fretboard.value.createMatrix(stringCount.value, fretCount.value)
+const fretboard = ref(new Fretboard())
+const showImage = ref(false)
 
 const fretTemplate = computed(() => {
   let fretSpacingCss = fretSpacing
