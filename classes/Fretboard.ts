@@ -31,6 +31,7 @@ function getOctave(note: String) {
   return note.replace(/\D/g, '')
 }
 
+
 // CLASE FRETBOARD:
 // Class to manage the fretboard model
 export class Fretboard {
@@ -44,11 +45,11 @@ export class Fretboard {
   readonly tone: any
 
   constructor(
+    tone: string = 'C4',
+    scale: string = 'major',
+    tunning: string[] = Tunings.STANDARD,
     strings: number = 6,
     frets: number = 12,
-    tunning: string[] = Tunings.STANDARD,
-    tone: string = 'C4',
-    scale: string = 'major'
   ) {
     this.scale = Scale.get(`${tone} ${scale}`)
     this.tone = Note.get(tone)
@@ -134,7 +135,7 @@ export class Fretboard {
 export const FretboardTest = () => {
   let message = 'Fretboard Testing'
 
-  const fretboard = new Fretboard()
+  const fretboard = new Fretboard('C4', 'major', Tunings.STANDARD, 6, 22 )
   console.log(fretboard.tone)
   fretboard.print()
   return message
