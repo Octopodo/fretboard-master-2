@@ -1,3 +1,5 @@
+// TODO: Formal documentation
+
 import _ from 'lodash'
 import {
   Scale,
@@ -30,13 +32,12 @@ type FretboardMatrix = Array<GtString>
 
 // CLASE FRETBOARD:
 // Class to manage the fretboard model
+
 export class Fretboard {
   private positions: any //
-  private root: any // ver claves
-  private spine: any // Crear clase Spine o Interfaz
   private tuning: any // Crear clase tunning
-  fretCount: number
-  stringCount: number
+  private fretCount: number
+  private stringCount: number
 
   public matrix: FretboardMatrix = [] // Crear clase Matrix o Interfaz
 
@@ -51,8 +52,6 @@ export class Fretboard {
     strings: number = FbSettings.STRING_COUNT,
     frets: number = FbSettings.FRET_COUNT
   ) {
-    //TODO: Implement a way to detect if a scale is major or minor
-    // Setting up the basic properties
     this.scale = Scale.get(`${tone} ${scale}`)
     this.tone = Note.get(this.scale.notes[0])
     this.tuning = tuning
@@ -65,7 +64,10 @@ export class Fretboard {
     this.flats = FlatsMap[qualifiedTone as keyof typeof FlatsMap] //Use flats or sharpt as accidental representation
     this.generateMatrix()
   }
-
+  // Implementation Ideas
+  // generatePositions() {}
+  // freeze() {}
+  // snapshot() {}
   crawl(
     callback: (
       fret: FretData,
@@ -85,10 +87,6 @@ export class Fretboard {
         callback(fret, fretIndex, index, gtString)
       })
     })
-  }
-
-  public createSpine(strings: Number, frets: Number) {
-    return this.spine
   }
 
   public generateStringChromaticScale(stringNumber: number) {
@@ -121,10 +119,6 @@ export class Fretboard {
     }
   }
 
-  generatePositions() {}
-
-  freeze() {}
-
   setScale(scaleName: String) {
     const scale: Array<any> = []
     this.crawl((fret: FretData) => {
@@ -136,7 +130,6 @@ export class Fretboard {
     const fretData = this.matrix[str][fret]
     fretData.visible = !fretData.visible
   }
-  snapshot() {}
 
   // PRINT:
   // Accepts a key to print each fret
