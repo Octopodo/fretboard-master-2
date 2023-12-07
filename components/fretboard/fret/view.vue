@@ -77,3 +77,4 @@ const leftClick = () => {
   place-content: center
   height: 10px
 </style>
+~/model/settings~/model/Fretboard

@@ -7,3 +7,4 @@ import { FretboardTest } from '~/classes/Fretboard'
 </script>
 
 <style></style>
+~/model/Fretboard

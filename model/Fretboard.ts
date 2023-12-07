@@ -3,11 +3,13 @@ import {
   Scale,
   Note,
   AbcNotation as Notation,
+  Interval,
+  Range,
   type NoteLiteral,
   type ScaleType,
 } from 'tonal'
 import { chromaticScale, Tunings, FlatsMap } from '~/constants/musical'
-import { FretSettings } from './settings'
+import { FretSettings, FretboardSettings as FbSettings } from './settings'
 
 //INTERFACES'
 export interface FretData {
@@ -31,29 +33,32 @@ function getOctave(note: String) {
   return note.replace(/\D/g, '')
 }
 
-
 // CLASE FRETBOARD:
 // Class to manage the fretboard model
 export class Fretboard {
-  private spine: any // Crear clase Spine o Interfaz
-  public matrix: FretboardMatrix = [[]] // Crear clase Matrix o Interfaz
-  private root: any // ver claves
-  private tunning: any // Crear clase tunning
-  readonly scale: any //
-  // readonly flats: boolean
   private positions: any //
+  private root: any // ver claves
+  private spine: any // Crear clase Spine o Interfaz
+  private tunning: any // Crear clase tunning
+
+  public matrix: FretboardMatrix = [[]] // Crear clase Matrix o Interfaz
+
+  readonly flats: boolean
+  readonly scale: any //
   readonly tone: any
 
   constructor(
-    tone: string = 'C4',
-    scale: string = 'major',
-    tunning: string[] = Tunings.STANDARD,
-    strings: number = 6,
-    frets: number = 12,
+    tone: string = FbSettings.TONE,
+    scale: string = FbSettings.SCALE,
+    tunning: string[] = FbSettings.TUNNING,
+    strings: number = FbSettings.STRING_COUNT,
+    frets: number = FbSettings.FRET_COUNT,
+    flats: boolean = FbSettings.FLATS
   ) {
+    // Setting up the basic properties
     this.scale = Scale.get(`${tone} ${scale}`)
-    this.tone = Note.get(tone)
-    // this.flats = FlatsMap[]
+    this.tone = Note.get(this.scale.notes[0])
+    this.flats = FlatsMap[tone as keyof typeof FlatsMap] //Use flats or sharpt as accidental representation
   }
 
   crawl(
@@ -92,7 +97,6 @@ export class Fretboard {
           positions: [],
           str: str,
           visible: FretSettings.VISIBLE_AT_START,
-
         }
         this.matrix[str].push(fret)
       }
@@ -134,9 +138,20 @@ export class Fretboard {
 
 export const FretboardTest = () => {
   let message = 'Fretboard Testing'
-
-  const fretboard = new Fretboard('C4', 'major', Tunings.STANDARD, 6, 22 )
-  console.log(fretboard.tone)
+  let interval = Interval.fromSemitones(22)
+  // Range.chromatic(['E4', ])
+  const fretboard = new Fretboard('G4', 'minor', Tunings.STANDARD, 6, 22)
+  console.log('Transposed ', interval, Note.transpose('E2', interval))
+  // fretboard.scale.notes.forEach(
+  //   (note: NoteLiteral, ind: number, notes: any) => {
+  //     console.log(Note.get(note))
+  //     console.log(
+  //       'distance:',
+  //       Interval.distance(note.toString(), notes[ind + 1]),
+  //       Interval.get(Interval.distance(note.toString(), notes[ind + 1]))
+  //     )
+  //   }
+  // )
   fretboard.print()
   return message
 }
