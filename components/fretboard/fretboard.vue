@@ -8,7 +8,6 @@
       <div class="string" :style="fretTemplate" v-for="str in fretboard.matrix">
         <fretboard-fret-view
           v-for="fret in str"
-          :id="fret.id!"
           :fretData="fret"
           @user-clicked-fret="(str, fret) => fretboard.setVisible(str, fret)"
         ></fretboard-fret-view>
