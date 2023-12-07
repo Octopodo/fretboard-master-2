@@ -13,17 +13,18 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     'nuxt-lodash',
     '@pinia/nuxt',
-    "@nuxt/image"
+    '@nuxt/image',
   ],
   imports: {
-    dirs: [
-      'composables',
-      'composables/**', 
-      'constants/**'],
+    dirs: ['composables', 'composables/**', 'constants/**'],
   },
   css: [
     '~/assets/styles/main.sass',
     '~/assets/styles/transitions.sass',
-    '~/assets/styles/fretboard.sass'
+    '~/assets/styles/fretboard.sass',
   ],
+  sourcemap: {
+    server: true,
+    client: true,
+  },
 })
