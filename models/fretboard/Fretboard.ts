@@ -17,7 +17,7 @@ import { FretSettings, FretboardSettings as FbSettings } from '../settings'
 import { isMinor } from '~/models/scales/ScaleHelpers'
 
 //INTERFACES'
-export interface FretData extends Partial<NoteInterface> {
+interface FretData extends Partial<NoteInterface> {
   fret: number
   locked: boolean
   mark: number // The index in the fret sets images
@@ -33,7 +33,7 @@ type FretboardMatrix = Array<GtString>
 // CLASE FRETBOARD:
 // Class to manage the fretboard model
 
-export class Fretboard {
+class Fretboard {
   private positions: any //
   private tuning: any // Crear clase tunning
   private fretCount: number
@@ -147,7 +147,7 @@ export class Fretboard {
   }
 }
 
-export const FretboardTest = () => {
+const FretboardTest = () => {
   let message = 'Fretboard Testing'
 
   // Range.chromatic(['E4', ])
@@ -162,3 +162,5 @@ export const FretboardTest = () => {
   fretboard.print('name')
   return message
 }
+
+export { type FretData, type FretboardMatrix, Fretboard, FretboardTest }
