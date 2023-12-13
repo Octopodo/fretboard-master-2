@@ -6,10 +6,10 @@
       class="fretboard-image"
     ></NuxtImg>
     <div class="fretboard" :style="[stringTemplate, fretboardSize]">
-      <div class="string" :style="fretTemplate" v-for="str in fretboard.matrix">
+      <div class="string" :style="fretTemplate" v-for="str in stringCount">
         <fretboard-fret-view
-          v-for="fret in str"
-          :fretData="fret"
+          v-for="fret in fretCount"
+          :fretData="fretboard.matrix[str -1][fret]"
           @user-clicked-fret="(str, fret) => fretboard.setVisible(str, fret)"
         ></fretboard-fret-view>
       </div>
@@ -19,6 +19,7 @@
 
 <script lang="ts" setup>
 import { useMyFretboardStore } from '~/stores/FretboardStore'
+import {useMyDevGuiStore } from '~/stores/DevGui'
 import { fretSpacing } from '~/constants/fret-proportions'
 import { Fretboard } from '~/models/fretboard/Fretboard'
 import { FretboardSettings, FretSettings } from '~/models/settings'
@@ -29,11 +30,12 @@ const props = defineProps({
   fretWidth: { type: Number, default: FretSettings.FRET_DOT_SIZE },
 })
 
-const fretCount = computed(() => Number(props.frets))
-const stringCount = computed(() => Number(props.strings))
-const state = useMyFretboardStore()
+
+const state = useMyDevGuiStore()
 const fretboard = ref(new Fretboard())
 const showImage = ref(false)
+const fretCount = computed(() => Number(fretboard.value.frets()))
+const stringCount = computed(() => Number(fretboard.value.strings()))
 
 const fretTemplate = computed(() => {
   let fretSpacingCss = fretSpacing

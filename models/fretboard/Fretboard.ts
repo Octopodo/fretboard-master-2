@@ -57,6 +57,8 @@ class Fretboard {
   private fretCount: number
   private stringCount: number
   private isActive: Function
+  private maxFrets: Number
+  private maxStrings: Number
   public matrix: FretboardMatrix = [] // Crear clase Matrix o Interfaz
 
   readonly flats: boolean
@@ -83,6 +85,8 @@ class Fretboard {
     this.tuning = tuning
     this.fretCount = frets
     this.stringCount = strings
+    this.maxFrets = frets
+    this.maxStrings = strings
     this.isActive = PcSet.isNoteIncludedIn(this.scale.notes)
     const toneName = Note.get(tone).letter
     const qualifiedTone = isMinor(this.scale) ? `${toneName}m` : toneName
@@ -127,7 +131,7 @@ class Fretboard {
    * @returns An array with all the string notes in the format 'A#5'
    */
   private generateStringChromaticScale(stringNumber: number) {
-    const interval = Interval.fromSemitones(22)
+    const interval = Interval.fromSemitones(this.fretCount + 1)
     const startNote = this.tuning[stringNumber as keyof typeof this.tuning]
     const lastNote = Note.transpose(startNote, interval)
     const chromaticString = Range.chromatic([startNote, lastNote], {
@@ -164,14 +168,36 @@ class Fretboard {
     }
   }
 
-  setScale(scaleName: String) {
+  public frets() {
+    return this.fretCount
+  }
+
+  public strings() {
+    return this.stringCount
+  }
+
+  public addStrings(count: number) {
+
+  }
+
+  public removeStrings(count: number) {
+    this.matrix.splice(0, count)
+  }
+
+  public removeFrets(count: number) {
+    for(let str of this.matrix) {
+      str.splice(str.length - count -1) //Revisar desde donde empieza a quitar
+    }
+  }
+
+  public setScale(scaleName: String) {
     const scale: Array<any> = []
     this.crawl((fret: FretData) => {
       fret.visible = scale.includes(fret)
     })
   }
 
-  setVisible(str: number, fret: number) {
+  public setVisible(str: number, fret: number) {
     const fretData = this.matrix[str][fret]
     fretData.visible = !fretData.visible
   }
