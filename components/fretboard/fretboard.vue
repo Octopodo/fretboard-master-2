@@ -39,7 +39,6 @@ const fretTemplate = computed(() => {
   let fretSpacingCss = fretSpacing
     .map((space) => `minmax(10px, ${space}fr)`)
     .join(' ')
-  console.log(fretSpacingCss)
   return {
     gridTemplateColumns: fretSpacingCss,
     gidTemplateRows: 'auto',

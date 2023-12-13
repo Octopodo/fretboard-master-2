@@ -10,7 +10,7 @@
 
     <!-- DOT: The base dot by css. Can live with image -->
     <div
-      ref="dot absolute"
+      ref="dot absolute "
       :class="dotClass"
       :style="[dotStyle, sizeStyle]"
       v-if="showDot"
@@ -84,6 +84,10 @@ const width = computed(() => {
 const height = computed(() => {
   return props.height
 })
+
+const containerStyle = () => {
+  const style = "fret-dot-container "
+}
 const contentStyle = computed(() => {
   return {}
 })

@@ -4,7 +4,7 @@
     :style="[sizeStyle]"
     @click.prevent="leftClick()"
   >
-    <transition name="show-fret">
+    <!-- <transition name="show-fret"> -->
       <fretboard-fret-dot
         v-if="props.fretData.visible"
         class="fret-content"
@@ -12,7 +12,7 @@
         :height="dotSize"
         :tone="fretData.name"
       ></fretboard-fret-dot>
-    </transition>
+    <!-- </transition> -->
     <div class="fretboard-string"></div>
   </div>
 </template>
@@ -45,7 +45,7 @@ const dotColor = ref('#ff0')
 const dotOutlineColor = ref('#00f')
 const dotDecoration = ref()
 
-const displayTone = computed(() => {
+const fretContentClass = computed(() => {
   return props.tone
 })
 
@@ -56,6 +56,7 @@ const sizeStyle = computed(() => {
     height: 'auto',
   }
 })
+
 
 // EMITTERS:
 const emit = defineEmits(['userClickedFret'])
