@@ -1,5 +1,5 @@
 <template>
-  <div class="fret-dot-container" :style="[sizeStyle]">
+  <div  :class="containerStyle" :style="[sizeStyle]">
     <!-- DECORATION: Any fret decoration like shadows, lights, etc... -->
     <NuxtImg
       ref="decoration"
@@ -73,6 +73,7 @@ const props = defineProps({
   src: { type: String || null, default: null },
   text: null,
   width: { type: Number || String, default: 25 },
+  visible: {type: Boolean, default: false, required: true}
 })
 
 // COMPUTED PROPETIES:
@@ -85,9 +86,14 @@ const height = computed(() => {
   return props.height
 })
 
-const containerStyle = () => {
-  const style = "fret-dot-container "
-}
+const containerStyle = computed(() => {
+  const style = 'fret-dot-container'
+  const direction = props.visible ? 'in' : 'out'
+  const cssProperties = ['scale'].join('-')
+  const transition = `fret-animate-${direction}-${cssProperties}`
+  return `${style} ${transition}`
+})
+
 const contentStyle = computed(() => {
   return {}
 })

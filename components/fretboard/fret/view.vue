@@ -6,8 +6,8 @@
   >
     <!-- <transition name="show-fret"> -->
       <fretboard-fret-dot
-        v-if="props.fretData.visible"
         class="fret-content"
+        :visible="props.fretData.visible"
         :width="dotSize"
         :height="dotSize"
         :tone="fretData.name"
